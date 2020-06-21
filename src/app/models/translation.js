@@ -26,11 +26,18 @@ const transationSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    audioFile: {
+        type: String,
+    },
     originalText: {
         type: String,
-        required: true,
+        required: false,
     },
     translationText: {
+        type: String,
+        required: false,
+    },
+    translationInvertedText: {
         type: String,
         required: false,
     },

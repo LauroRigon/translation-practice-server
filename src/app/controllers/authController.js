@@ -18,7 +18,7 @@ router.post('/register', async (req, res) => {
     if (!!userExists) {
         return res.status(400).json({ message: 'User already exists!'})
     }
-    
+
     try {
         const user = await User.create({
             email: req.body.email,
@@ -27,9 +27,9 @@ router.post('/register', async (req, res) => {
         const freshUser = await user.save();
         freshUser.password = undefined;
 
-        res.json({ user: freshUser, token: generateToken(freshUser.toJSON()) })
+        res.send({ user: freshUser, token: generateToken(freshUser.toJSON()) });
     } catch (error) {
-        res.status(500).json({ message: error.message })
+        res.status(500).json({ message: error.message });
     }
 });
 

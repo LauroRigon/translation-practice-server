@@ -1,14 +1,9 @@
+const server = require('./app/server');
+
 require('dotenv').config();
 
-const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
+require('./app/controllers/index.js')(server);
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-
-require('./app/controllers/index.js')(app);
-
-app.listen(3000, () => {
+server.listen(3000, () => {
     console.log('Started');    
 });
