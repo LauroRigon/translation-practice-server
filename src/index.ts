@@ -1,20 +1,5 @@
-// import server from './app/server';
-//
-// require('dotenv').config();
-//
-// require('./app/controllers/index.js')(server);
-//
-// server.listen(3000, () => {
-//     console.log('Started');
-// });
+import server from './app/server'
 
-import express from 'express'
-
-console.log(Translation)
-const app = express()
-
-app.get('/', (req, res) => {
-  return res.json({ message: 'Hello World' })
+server.express.listen(3333, () => {
+  console.log('Started')
 })
-
-app.listen(3333)
