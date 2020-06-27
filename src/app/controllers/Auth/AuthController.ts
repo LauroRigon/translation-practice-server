@@ -4,7 +4,7 @@ import { Request, Response } from 'express'
 
 import User from '@models/User'
 
-function generateToken (params: Object) {
+export function generateToken (params: Object) {
   return jwt.sign(params, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: 86400
   })

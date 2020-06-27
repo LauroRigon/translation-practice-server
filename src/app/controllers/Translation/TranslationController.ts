@@ -28,9 +28,17 @@ class TranslationController {
     }
   }
 
+  public async show (req: AuthRequest, res: Response): Promise<Response> {
+    try {
+      return res.status(200).send(req.translation.toJSON())
+    } catch (error) {
+      return res.status(500).json({ message: error.message })
+    }
+  }
+
   public async create (req: AuthRequest, res: Response): Promise<Response> {
     try {
-      const translation = new Translation({
+      const translation = await new Translation({
         name: req.body.name,
         user: req.user._id,
         fromLang: req.body.fromLang,
@@ -40,7 +48,7 @@ class TranslationController {
 
       const freshTranslation = await translation.save()
 
-      return res.status(201).json(freshTranslation)
+      return res.status(201).send(freshTranslation)
     } catch (error) {
       return res.status(500).json({ message: error.message })
     }

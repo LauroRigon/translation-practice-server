@@ -8,7 +8,7 @@ export enum Languages {
   En = LANG_EN,
 }
 
-interface TranslationInterface extends Document {
+export interface TranslationInterface extends Document {
   name: string;
   user: number;
   fromLang: Languages;
@@ -18,8 +18,8 @@ interface TranslationInterface extends Document {
   translationText?: string;
   translationInvertedText?: string;
 
-  readonly fromLangLabel: string
-  readonly toLangLabel: string
+  readonly fromLangLabel?: string
+  readonly toLangLabel?: string
 }
 
 const TranslationSchema = new Schema({
@@ -33,11 +33,11 @@ const TranslationSchema = new Schema({
     required: true
   },
   fromLang: {
-    type: Number,
+    type: Languages,
     required: true
   },
   toLang: {
-    type: Number,
+    type: Languages,
     required: true
   },
   audioFile: {

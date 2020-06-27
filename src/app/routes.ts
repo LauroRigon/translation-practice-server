@@ -1,15 +1,11 @@
 import { Router } from 'express'
 
-import AuthController from './controllers/Auth/AuthController'
-import TranslationController from './controllers/Translation/TranslationController'
+import AuthRoutes from './controllers/Auth/AuthRoutes'
+import TranslationRoutes from './controllers/Translation/TranslationRoutes'
 
 const router = Router()
 
-router.post('/auth/register', AuthController.register)
-router.post('/auth/login', AuthController.login)
-
-const AppTranslationController = TranslationController(router)
-router.get('/translation', AppTranslationController.index)
-router.post('/translation', AppTranslationController.create)
+AuthRoutes(router)
+TranslationRoutes(router)
 
 export default router
