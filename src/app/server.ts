@@ -26,7 +26,9 @@ class Server {
   }
 
   private database (): void {
-    mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+    const database = process.env.NODE_ENV === 'test' ? process.env.DATABASE_TEST_URL : process.env.DATABASE_URL
+
+    mongoose.connect(`mongodb://${process.env.APP_HOST}/${database}`, { useNewUrlParser: true, useUnifiedTopology: true })
     mongoose.Promise = global.Promise
   }
 

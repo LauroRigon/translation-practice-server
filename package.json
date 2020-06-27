@@ -7,7 +7,8 @@
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored",
     "start": "node dist/index.js",
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpileOnly --ignore-watch node_modules --no-notify src/index.ts",
-    "test": "jest"
+    "test": "cross-env NODE_ENV=test jest --detectOpenHandles",
+    "test:watch": "cross-env NODE_ENV=test jest --watch"
   },
   "author": "",
   "license": "ISC",
@@ -38,6 +39,7 @@
     "@typescript-eslint/eslint-plugin": "^3.3.0",
     "@typescript-eslint/parser": "^3.3.0",
     "babel-plugin-module-resolver": "^4.0.0",
+    "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "eslint": "^7.3.0",
     "eslint-config-standard": "^14.1.1",
@@ -47,6 +49,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "jest": "^26.0.1",
     "nodemon": "^2.0.3",
+    "supertest": "^4.0.2",
     "ts-jest": "^26.1.0",
     "ts-node-dev": "^1.0.0-pre.49",
     "tsconfig-paths": "^3.9.0",
