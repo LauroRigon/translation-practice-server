@@ -1,5 +1,5 @@
 import TranslationController from './TranslationController'
-import { injectTranslation } from './TranslationMiddlewares'
+import { hasDifferentLang, hasName, injectTranslation } from './TranslationMiddlewares'
 
 export default (router) => {
   const AppTranslationController = TranslationController(router)
@@ -14,8 +14,24 @@ export default (router) => {
     AppTranslationController.show
   )
 
+  router.delete(
+    '/translation/:id',
+    injectTranslation,
+    AppTranslationController.delete
+  )
+
   router.post(
     '/translation',
+    hasDifferentLang,
+    hasName,
     AppTranslationController.create
+  )
+
+  router.patch(
+    '/translation/:id',
+    injectTranslation,
+    hasDifferentLang,
+    hasName,
+    AppTranslationController.update
   )
 }

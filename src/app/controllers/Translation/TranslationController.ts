@@ -36,6 +36,15 @@ class TranslationController {
     }
   }
 
+  public async delete (req: AuthRequest, res: Response): Promise<Response> {
+    try {
+      await req.translation.remove()
+      res.status(200).json({ message: 'Deleted' })
+    } catch (error) {
+      return res.status(500).json({ message: error.message })
+    }
+  }
+
   public async create (req: AuthRequest, res: Response): Promise<Response> {
     try {
       const translation = await new Translation({
@@ -49,6 +58,24 @@ class TranslationController {
       const freshTranslation = await translation.save()
 
       return res.status(201).send(freshTranslation)
+    } catch (error) {
+      return res.status(500).json({ message: error.message })
+    }
+  }
+
+  public async update (req: AuthRequest, res: Response): Promise<Response> {
+    const translation = req.translation
+    const safeFields = ['name', 'fromLang', 'toLang', 'originalText', 'translationText', 'translationInvertedText']
+
+    safeFields.forEach(field => {
+      if (req.body[field]) {
+        translation[field] = req.body[field]
+      }
+    })
+
+    try {
+      const updatedTranslation = await translation.save()
+      return res.status(200).json(updatedTranslation)
     } catch (error) {
       return res.status(500).json({ message: error.message })
     }

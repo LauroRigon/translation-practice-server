@@ -1,5 +1,6 @@
 import server from './app/server'
 
-server.express.listen(process.env.APP_PORT, () => {
-  console.log('Started')
+const { APP_PORT } = process.env
+server.express.listen(APP_PORT, () => {
+  console.log(`Started on port ${APP_PORT}`)
 })

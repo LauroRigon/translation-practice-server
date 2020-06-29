@@ -6,6 +6,7 @@ import mongoose from 'mongoose'
 import routes from './routes'
 
 import { config } from 'dotenv'
+
 config()
 
 class Server {
@@ -21,7 +22,7 @@ class Server {
 
   private middlewares (): void {
     this.express.use(bodyParser.json())
-    this.express.use(bodyParser.urlencoded({ extended: false }))
+    this.express.use(bodyParser.urlencoded({ extended: true }))
     this.express.use(cors())
   }
 

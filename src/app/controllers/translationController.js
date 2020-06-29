@@ -54,8 +54,6 @@ router.get('/:id', injectTranslation, (req, res) => {
 })
 
 router.post('/', upload.single('audioFile'), async (req, res) => {
-  console.log(req.file)
-
   const translation = new Translation({
     name: req.body.name,
     user: req.user._id,
