@@ -47,7 +47,7 @@ describe('Test Translations', () => {
 
       expect(statusCode).toBe(400)
       expect(body).toHaveProperty('field')
-      expect(body).toHaveProperty('error')
+      expect(body).toHaveProperty('message')
 
       done()
     })
@@ -61,7 +61,7 @@ describe('Test Translations', () => {
 
       expect(statusCode).toBe(400)
       expect(body).toHaveProperty('field')
-      expect(body).toHaveProperty('error')
+      expect(body).toHaveProperty('message')
 
       done()
     })
@@ -75,7 +75,7 @@ describe('Test Translations', () => {
 
       expect(statusCode).toBe(400)
       expect(body).toHaveProperty('field')
-      expect(body).toHaveProperty('error')
+      expect(body).toHaveProperty('message')
 
       done()
     })
@@ -90,12 +90,29 @@ describe('Test Translations', () => {
       translation.name = NEW_NAME
 
       const { statusCode, body } = await request
-        .patch(`/translation/${translation._id}`)
+        .put(`/translation/${translation._id}`)
         .set('Authorization', `Bearer ${TOKEN}`)
         .send(translation)
 
       expect(statusCode).toBe(200)
       expect(body).toHaveProperty('name', NEW_NAME)
+
+      done()
+    })
+
+    it('should return 200 when updating one specific field', async (done) => {
+      const translation = await new Translation(TranslationBuilder.randomTranslation({ user: TEST_USER._id }))
+      await translation.save()
+
+      const NEW_TRANSLATION_TEXT = 'New text on translation'
+
+      const { statusCode, body } = await request
+        .patch(`/translation/${translation._id}`)
+        .set('Authorization', `Bearer ${TOKEN}`)
+        .send({ translationText: NEW_TRANSLATION_TEXT })
+
+      expect(statusCode).toBe(200)
+      expect(body).toHaveProperty('translationText', NEW_TRANSLATION_TEXT)
 
       done()
     })

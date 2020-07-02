@@ -1,7 +1,8 @@
 import TranslationController from './TranslationController'
 import { hasDifferentLang, hasName, injectTranslation } from './TranslationMiddlewares'
+import { Router } from 'express'
 
-export default (router) => {
+export default (router: Router) => {
   const AppTranslationController = TranslationController(router)
   router.get(
     '/translation',
@@ -27,11 +28,17 @@ export default (router) => {
     AppTranslationController.create
   )
 
-  router.patch(
+  router.put(
     '/translation/:id',
     injectTranslation,
     hasDifferentLang,
     hasName,
     AppTranslationController.update
+  )
+
+  router.patch(
+    '/translation/:id',
+    injectTranslation,
+    AppTranslationController.patch
   )
 }

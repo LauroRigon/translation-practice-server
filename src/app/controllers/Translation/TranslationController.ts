@@ -1,4 +1,4 @@
-import express, { Response } from 'express'
+import express, { Response, Router } from 'express'
 import Translation from '@models/Translation'
 import { AuthRequest } from '../../support/AuthRequest'
 import AuthenticatedMiddleware from '../Auth/AuthenticatedMiddleware'
@@ -80,6 +80,24 @@ class TranslationController {
       return res.status(500).json({ message: error.message })
     }
   }
+
+  public async patch (req: AuthRequest, res: Response): Promise<Response> {
+    const translation = req.translation
+    const safeFields = ['translationText', 'translationInvertedText']
+
+    safeFields.forEach(field => {
+      if (req.body[field]) {
+        translation[field] = req.body[field]
+      }
+    })
+
+    try {
+      const updatedTranslation = await translation.save()
+      return res.status(200).json(updatedTranslation)
+    } catch (error) {
+      return res.status(500).json({ message: error.message })
+    }
+  }
 }
 
-export default (router) => new TranslationController(router)
+export default (router: Router) => new TranslationController(router)

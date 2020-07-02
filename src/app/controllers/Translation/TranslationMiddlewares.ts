@@ -49,9 +49,9 @@ export const uploadAudioFile = ((): RequestHandler => {
 export function hasDifferentLang ({ body }: AuthRequest, res: Response, next) {
   const error = {
     field: 'fromLang',
-    error: 'Languages has to be different from each other'
+    message: 'Languages has to be different from each other'
   }
-  console.log(body)
+
   if (body.fromLang === body.toLang) {
     return res.status(400).json(error)
   }
@@ -62,7 +62,7 @@ export function hasDifferentLang ({ body }: AuthRequest, res: Response, next) {
 export function hasName ({ body }: AuthRequest, res: Response, next) {
   const error = {
     field: 'name',
-    error: 'Translation has to have a name'
+    message: 'Translation has to have a name'
   }
 
   if (!body.name) {
