@@ -1,7 +1,6 @@
 import express, { Response, Router } from 'express'
 import Translation from '@models/Translation'
 import { AuthRequest } from '../../support/AuthRequest'
-import AuthenticatedMiddleware from '../Auth/AuthenticatedMiddleware'
 
 class TranslationController {
   public express: express.Application
@@ -10,12 +9,6 @@ class TranslationController {
   public constructor (router: express.Router) {
     this.router = router
     this.express = express()
-
-    this.middlewares()
-  }
-
-  private middlewares () {
-    this.router.use(AuthenticatedMiddleware)
   }
 
   public async index (req: AuthRequest, res: Response): Promise<Response> {

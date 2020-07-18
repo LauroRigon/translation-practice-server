@@ -27,10 +27,12 @@ class Server {
   }
 
   private database (): void {
-    const database = process.env.NODE_ENV === 'test' ? process.env.DATABASE_TEST_URL : process.env.DATABASE_URL
+    const DB_NAME = process.env.NODE_ENV === 'test' ? process.env.DB_TEST_NAME : process.env.DB_NAME
+    const { DB_HOST, DB_PORT } = process.env
+    mongoose.connect(`mongodb://${DB_HOST}:${DB_PORT}/${DB_NAME}`, { useNewUrlParser: true, useUnifiedTopology: true })
 
-    mongoose.connect(`mongodb://${process.env.APP_HOST}/${database}`, { useNewUrlParser: true, useUnifiedTopology: true })
-    mongoose.Promise = global.Promise
+    mongoose.connection.on('error', () => console.error('error to connect to: ' + `mongodb://${DB_HOST}:${DB_PORT}/${DB_NAME}`))
+    mongoose.connection.on('open', () => console.error('connected to: ' + `mongodb://${DB_HOST}:${DB_PORT}/${DB_NAME}`))
   }
 
   private routes (): void {

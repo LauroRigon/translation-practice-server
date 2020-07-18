@@ -1,8 +1,9 @@
-const jwt = require('jsonwebtoken')
+import jsonwebtoken from 'jsonwebtoken'
+import { UserInterface } from '@models/User'
+import { Response } from 'express'
+import { AuthRequest } from '../support/AuthRequest'
 
-const { User } = require('@models/User')
-
-module.exports = (req, res, next) => {
+export default function (req: AuthRequest, res: Response, next: Function) {
   const authHeader = req.headers.authorization
 
   if (!authHeader) {
@@ -15,13 +16,13 @@ module.exports = (req, res, next) => {
     return res.status(401).send({ error: 'Invalid token' })
   }
 
-  [scheme, token] = parts
+  const [scheme, token] = parts
 
   if (!/^Bearer$/i.test(scheme)) {
     return res.status(401).send({ error: 'Token malformatted' })
   }
 
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (error, decoded) => {
+  jsonwebtoken.verify(token, process.env.ACCESS_TOKEN_SECRET, (error, decoded: UserInterface) => {
     if (error) return res.status(401).send({ error: 'Invalid token' })
 
     req.user = decoded

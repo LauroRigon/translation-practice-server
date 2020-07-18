@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+  appserver:
+    build: .
+    container_name: api
+    restart: unless-stopped
+    working_dir: /usr/app
+    networks:
+      - app-network
+    volumes:
+      - .:/usr/app
+      - node_modules:/usr/app/node_modules
+    depends_on:
+      - db
+    links:
+      - db
+    ports:
+      - 3000:3000
+    command: npm run dev
+
+  db:
+    image: mongo:3.6.3
+    container_name: db
+    env_file: .env
+    restart: unless-stopped
+    volumes:
+      - dbdata:/data/db
+    ports:
+      - 27017:27017
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  dbdata:
+  node_modules:

@@ -23,10 +23,11 @@ class AuthController {
         email: req.body.email,
         password: await bcrypt.hash(req.body.password, 10)
       })
+
       const freshUser = await user.save()
       freshUser.password = undefined
 
-      return res.status(201).send({ user: freshUser, token: generateToken(freshUser.toJSON()) })
+      return res.status(201).json({ user: freshUser, token: generateToken(freshUser.toJSON()) })
     } catch (error) {
       return res.status(500).json({ message: error.message })
     }
